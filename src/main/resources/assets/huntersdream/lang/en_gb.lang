@@ -173,6 +173,10 @@ huntersdream.config.werewolfPlayerInfectChance=Probability that a werewolf playe
 huntersdream.config.playerWerewolfBiteDamage=Base damage for player werewolf bite attacks
 huntersdream.config.playerWerewolfClawDamageBase=Base damage for player werewolf claw attacks
 huntersdream.config.playerWerewolfBonusDamagePerLevel=Additional unarmed damage per skill level
+huntersdream.config.werewolfSpawnWeight=Spawn weight for werewolves during full moon
+huntersdream.config.werewolfSpawnForestOnly=If true, werewolves spawn only in forest biomes. If false, they can spawn in any biome.
+huntersdream.config.npcWerewolfBiteInfectChance=Percent chance of infection when an NPC werewolf bites a player or villager
+huntersdream.config.werewolfDropInventoryOnChange=Whether player werewolves drop their inventory on the ground when they change
 
 # Skills
 huntersdream.unlockSkill=Unlock with %s experience levels

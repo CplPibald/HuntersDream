@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.init.MobEffects;
@@ -187,7 +188,7 @@ public class WerewolfHelper {
      */
     public static int getInfectionPercentage(EntityLivingBase entity) {
         if (WerewolfHelper.canInfect(entity)) {
-            return (entity instanceof EntityPlayer) ? 25 : 100;
+            return (entity instanceof EntityPlayer) ? ConfigHandler.balance.npcWerewolfBiteInfectChance : 100;
         } else {
             throw new WrongTransformationException("The given entity is not a werewolf",
                     TransformationHelper.getTransformation(entity));
@@ -616,36 +617,46 @@ public class WerewolfHelper {
     // Drop all items from player, with extended despawn timer
     public static void dropAllItems(EntityPlayer player) {
 
-        net.minecraft.entity.player.InventoryPlayer inv = player.inventory;
+        
 
-        //main
-        for (int i = 0; i < inv.mainInventory.size(); ++i)  {
-            ItemStack itemstack = inv.mainInventory.get(i);
+        if (ConfigHandler.balance.werewolfDropInventoryOnChange) {
+            // For each inventory, drop the items on the ground.  Despawn is set to 15
+            // minutes, to make sure the player can get them before they disappear
 
-            if (!itemstack.isEmpty()) {
-                EntityItem ei = player.dropItem(itemstack, true, false);
-                inv.mainInventory.set(i, ItemStack.EMPTY);
-                ei.lifespan = LONG_DESPAWN;
+            InventoryPlayer inv = player.inventory;
+            //main
+            for (int i = 0; i < inv.mainInventory.size(); ++i)  {
+                ItemStack itemstack = inv.mainInventory.get(i);
+
+                if (!itemstack.isEmpty()) {
+                    EntityItem ei = player.dropItem(itemstack, true, false);
+                    inv.mainInventory.set(i, ItemStack.EMPTY);
+                    ei.lifespan = LONG_DESPAWN;
+                }
+            }
+            // armor
+            for (int i = 0; i < inv.armorInventory.size(); ++i) {
+                ItemStack itemstack = inv.armorInventory.get(i);
+
+                if (!itemstack.isEmpty()) {
+                    EntityItem ei = player.dropItem(itemstack, true, false);
+                    inv.armorInventory.set(i, ItemStack.EMPTY);
+                    ei.lifespan = LONG_DESPAWN;
+                }
+            }
+            // offhand
+            for (int i = 0; i < inv.offHandInventory.size(); ++i) {
+                ItemStack itemstack = inv.offHandInventory.get(i);
+                if (!itemstack.isEmpty()) {
+                    EntityItem ei = player.dropItem(itemstack, true, false);
+                    inv.offHandInventory.set(i, ItemStack.EMPTY);
+                    ei.lifespan = LONG_DESPAWN;
+                }
             }
         }
-        // armor
-        for (int i = 0; i < inv.armorInventory.size(); ++i) {
-            ItemStack itemstack = inv.armorInventory.get(i);
-
-            if (!itemstack.isEmpty()) {
-                EntityItem ei = player.dropItem(itemstack, true, false);
-                inv.armorInventory.set(i, ItemStack.EMPTY);
-                ei.lifespan = LONG_DESPAWN;
-            }
-        }
-        // offhand
-        for (int i = 0; i < inv.offHandInventory.size(); ++i) {
-            ItemStack itemstack = inv.offHandInventory.get(i);
-            if (!itemstack.isEmpty()) {
-                EntityItem ei = player.dropItem(itemstack, true, false);
-                inv.offHandInventory.set(i, ItemStack.EMPTY);
-                ei.lifespan = LONG_DESPAWN;
-            }
+        else {
+            // Save player inventory, but still make it inaccessible
+            
         }
     }
 

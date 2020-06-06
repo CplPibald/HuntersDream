@@ -18,6 +18,7 @@ import theblockbox.huntersdream.entity.renderer.RenderGoblinTD;
 import theblockbox.huntersdream.entity.renderer.RenderHunter;
 import theblockbox.huntersdream.entity.renderer.RenderSilverArrow;
 import theblockbox.huntersdream.entity.renderer.RenderWerewolf;
+import theblockbox.huntersdream.util.handlers.ConfigHandler;
 
 import javax.annotation.Nullable;
 import java.util.stream.Collectors;
@@ -37,10 +38,10 @@ public class EntityInit {
                         .tracker(EntityInit.TRACKING_RANGE, EntityInit.UPDATE_FREQ, EntityInit.VEL_UPDATES).build(),
                 EntityInit.getEntityEntryBuilder("werewolf", EntityWerewolf.class)
                         .tracker(EntityInit.TRACKING_RANGE, EntityInit.UPDATE_FREQ, EntityInit.VEL_UPDATES)
-                        .spawn(EnumCreatureType.CREATURE, 5, 1, 1,
+                        .spawn(EnumCreatureType.CREATURE, ConfigHandler.balance.werewolfSpawnWeight, 1, 1,
                                 StreamSupport.stream(Biome.REGISTRY.spliterator(), false)
-                                        .filter(b -> BiomeDictionary.hasType(b, BiomeDictionary.Type.FOREST))
-                                        .collect(Collectors.toSet())).egg(0, 6636321).build(),
+                                    .filter(b -> (ConfigHandler.balance.werewolfSpawnForestOnly ? BiomeDictionary.hasType(b, BiomeDictionary.Type.FOREST) : true))
+                                    .collect(Collectors.toSet())).egg(0, 6636321).build(),
                 EntityInit.getEntityEntryBuilder("hunter", EntityHunter.class).egg(12820338, 4532224)
                         .tracker(EntityInit.TRACKING_RANGE, EntityInit.UPDATE_FREQ, EntityInit.VEL_UPDATES).build(),
                 // same tracker as arrows

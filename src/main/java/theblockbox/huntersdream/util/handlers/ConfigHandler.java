@@ -58,6 +58,18 @@ public class ConfigHandler {
 
         @Config.LangKey(Reference.CFG_LANG + "playerWerewolfBonusDamagePerLevel")
         public float playerWerewolfBonusDamagePerLevel = 1.0F;
+
+        @Config.LangKey(Reference.CFG_LANG + "werewolfSpawnWeight")
+        public int werewolfSpawnWeight = 5;
+
+        @Config.LangKey(Reference.CFG_LANG + "werewolfSpawnForestOnly")
+        public boolean werewolfSpawnForestOnly = true;
+
+        @Config.LangKey(Reference.CFG_LANG + "npcWerewolfBiteInfectChance")
+        public int npcWerewolfBiteInfectChance = 25;
+
+        @Config.LangKey(Reference.CFG_LANG + "werewolfDropInventoryOnChange")
+        public boolean werewolfDropInventoryOnChange = true;
     }
 
     public static class Server {
